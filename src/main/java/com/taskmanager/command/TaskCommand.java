@@ -19,10 +19,10 @@ public class TaskCommand {
 
     @Command(name = "add", description = "Add a new task")
     public String addTask(
-            @Argument(index=0,description = "Task title")
+            @Argument(index = 0, description = "Task title")
             String title,
 
-            @Argument(index=1,description = "Task description")
+            @Argument(index = 1, description = "Task description")
             String description) {
 
         Task task = taskService.addTask(title, description);
@@ -40,5 +40,53 @@ public class TaskCommand {
         }
 
         return tasks.toString();
+    }
+
+    @Command(name = "update", description = "Update a task")
+    public String updateTask(
+            @Argument(index = 0, description = "Task ID")
+            int id,
+
+            @Argument(index = 1, description = "New title")
+            String title,
+
+            @Argument(index = 2, description = "New description")
+            String description) {
+
+        boolean updated = taskService.updateTask(id, title, description);
+
+        if (!updated) {
+            return "Task not found with ID: " + id;
+        }
+
+        return "Task updated successfully.";
+    }
+
+    @Command(name = "delete", description = "Delete a task")
+    public String deleteTask(
+            @Argument(index = 0, description = "Task ID")
+            int id) {
+
+        boolean deleted = taskService.deleteTask(id);
+
+        if (!deleted) {
+            return "Task not found with ID: " + id;
+        }
+
+        return "Task deleted successfully.";
+    }
+
+    @Command(name = "complete", description = "Mark a task as completed")
+    public String completeTask(
+            @Argument(index = 0, description = "Task ID")
+            int id) {
+
+        boolean completed = taskService.completeTask(id);
+
+        if (!completed) {
+            return "Task not found with ID: " + id;
+        }
+
+        return "Task marked as completed.";
     }
 }
