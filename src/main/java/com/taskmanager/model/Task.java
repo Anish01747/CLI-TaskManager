@@ -1,20 +1,29 @@
 package com.taskmanager.model;
 
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+
+@Entity
 public class Task {
 
-    private int id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     private String title;
     private String description;
-    private boolean completed;
 
-    public Task(int id, String title, String description) {
-        this.id = id;
-        this.title = title;
-        this.description = description;
-        this.completed = false;
+    public Task() {
     }
 
-    public int getId() {
+    public Task(String title, String description) {
+        this.title = title;
+        this.description = description;
+    }
+
+    public Long getId() {
         return id;
     }
 
@@ -22,33 +31,24 @@ public class Task {
         return title;
     }
 
-    public String getDescription() {
-        return description;
-    }
-
-    public boolean isCompleted() {
-        return completed;
-    }
-
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
     }
 
     public void setDescription(String description) {
         this.description = description;
     }
 
-    public void setCompleted(boolean completed) {
-        this.completed = completed;
-    }
-
     @Override
     public String toString() {
-        String status = completed ? "[✓]" : "[ ]";
-
-        return "ID: " + id
-                + " | " + status
-                + " | Title: " + title
-                + " | Description: " + description;
+        return "Task{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", description='" + description + '\'' +
+                '}';
     }
 }

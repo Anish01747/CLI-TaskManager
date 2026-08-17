@@ -1,82 +1,48 @@
 package com.taskmanager.service;
 
 import com.taskmanager.model.Task;
+import com.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class TaskService {
 
-    private final List<Task> tasks = new ArrayList<>();
+    private final TaskRepository taskRepository;
 
-    private int nextId = 1;
+    public TaskService(TaskRepository taskRepository) {
+        this.taskRepository = taskRepository;
+    }
 
-    public Task addTask(String title, String description) {
-
-        Task task = new Task(nextId, title, description);
-
-        tasks.add(task);
-
-        nextId++;
-
-        return task;
+    public Task addTask(Task task) {
+        return taskRepository.save(task);
     }
 
     public List<Task> getAllTasks() {
-        return tasks;
+        return taskRepository.findAll();
     }
 
-    public Task getTaskById(int id) {
-
-        for (Task task : tasks) {
-
-            if (task.getId() == id) {
-                return task;
-            }
-        }
-
-        return null;
+    public Optional<Task> getTaskById(Long id) {
+        return taskRepository.findById(id);
     }
 
-    public boolean updateTask(int id, String title, String description) {
-
-        Task task = getTaskById(id);
-
-        if (task == null) {
-            return false;
-        }
-
-        task.setTitle(title);
-        task.setDescription(description);
-
-        return true;
+    public Task updateTask(Long id, Task updatedTask) {
+        return taskRepository.findById(id)
+                .map(task -> {
+                    task.setTitle(updatedTask.getTitle());
+                    task.setDescription(updatedTask.getDescription());
+                    return taskRepository.save(task);
+                })
+                .orElse(null);
     }
 
-    public boolean deleteTask(int id) {
-
-        Task task = getTaskById(id);
-
-        if (task == null) {
-            return false;
+    public boolean deleteTask(Long id) {
+        if (taskRepository.existsById(id)) {
+            taskRepository.deleteById(id);
+            return true;
         }
-
-        tasks.remove(task);
-
-        return true;
-    }
-
-    public boolean completeTask(int id) {
-
-        Task task = getTaskById(id);
-
-        if (task == null) {
-            return false;
-        }
-
-        task.setCompleted(true);
-
-        return true;
+        return false;
     }
 }

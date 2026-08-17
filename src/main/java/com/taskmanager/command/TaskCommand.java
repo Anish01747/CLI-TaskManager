@@ -6,8 +6,6 @@ import org.springframework.shell.core.command.annotation.Argument;
 import org.springframework.shell.core.command.annotation.Command;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-
 @Component
 public class TaskCommand {
 
@@ -25,68 +23,58 @@ public class TaskCommand {
             @Argument(index = 1, description = "Task description")
             String description) {
 
-        Task task = taskService.addTask(title, description);
+        Task task = new Task(title, description);
+        Task savedTask = taskService.addTask(task);
 
-        return "Task created: " + task;
+        return "Task added successfully: " + savedTask;
     }
 
     @Command(name = "list", description = "List all tasks")
     public String listTasks() {
 
-        List<Task> tasks = taskService.getAllTasks();
-
-        if (tasks.isEmpty()) {
-            return "No tasks found.";
-        }
-
-        return tasks.toString();
+        return taskService.getAllTasks().toString();
     }
 
-    @Command(name = "update", description = "Update a task")
-    public String updateTask(
+    @Command(name = "get", description = "Get task by ID")
+    public String getTask(
             @Argument(index = 0, description = "Task ID")
-            int id,
+            Long id) {
 
-            @Argument(index = 1, description = "New title")
-            String title,
-
-            @Argument(index = 2, description = "New description")
-            String description) {
-
-        boolean updated = taskService.updateTask(id, title, description);
-
-        if (!updated) {
-            return "Task not found with ID: " + id;
-        }
-
-        return "Task updated successfully.";
+        return taskService.getTaskById(id)
+                .map(Task::toString)
+                .orElse("Task not found with ID: " + id);
     }
 
-    @Command(name = "delete", description = "Delete a task")
+    @Command(name = "delete", description = "Delete task by ID")
     public String deleteTask(
             @Argument(index = 0, description = "Task ID")
-            int id) {
+            Long id) {
 
-        boolean deleted = taskService.deleteTask(id);
-
-        if (!deleted) {
-            return "Task not found with ID: " + id;
+        if (taskService.deleteTask(id)) {
+            return "Task deleted successfully.";
         }
 
-        return "Task deleted successfully.";
+        return "Task not found with ID: " + id;
     }
-
-    @Command(name = "complete", description = "Mark a task as completed")
-    public String completeTask(
+    @Command(name = "update", description = "Update an existing task")
+    public String updateTask(
             @Argument(index = 0, description = "Task ID")
-            int id) {
+            Long id,
 
-        boolean completed = taskService.completeTask(id);
+            @Argument(index = 1, description = "New task title")
+            String title,
 
-        if (!completed) {
+            @Argument(index = 2, description = "New task description")
+            String description) {
+
+        Task updatedTask = new Task(title, description);
+
+        Task task = taskService.updateTask(id, updatedTask);
+
+        if (task == null) {
             return "Task not found with ID: " + id;
         }
 
-        return "Task marked as completed.";
+        return "Task updated successfully: " + task;
     }
 }
