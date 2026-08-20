@@ -14,6 +14,7 @@ public class Task {
 
     private String title;
     private String description;
+    private String status ="PENDING";
 
     public Task() {
     }
@@ -42,6 +43,13 @@ public class Task {
     public void setDescription(String description) {
         this.description = description;
     }
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
 
     @Override
     public String toString() {
@@ -49,6 +57,7 @@ public class Task {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
+                ", status='" + status + '\''+
                 '}';
     }
 }
