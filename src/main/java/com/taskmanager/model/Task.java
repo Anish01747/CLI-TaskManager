@@ -1,5 +1,5 @@
 package com.taskmanager.model;
-
+import java.time.LocalDate;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -11,7 +11,7 @@ public class Task {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+    private LocalDate dueDate;
     private String title;
     private String description;
     private String status ="PENDING";
@@ -50,6 +50,12 @@ public class Task {
     public void setStatus(String status) {
         this.status = status;
     }
+    public LocalDate getDueDate() {
+        return dueDate;
+    }
+    public void setDueDate(LocalDate dueDate) {
+        this.dueDate = dueDate;
+    }
 
     @Override
     public String toString() {
@@ -58,6 +64,7 @@ public class Task {
                 ", title='" + title + '\'' +
                 ", description='" + description + '\'' +
                 ", status='" + status + '\''+
+                ", dueDate='"+ dueDate +
                 '}';
     }
 }

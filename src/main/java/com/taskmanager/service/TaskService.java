@@ -1,10 +1,11 @@
 package com.taskmanager.service;
-
+import java.time.LocalDate;
 import com.taskmanager.model.Task;
 import com.taskmanager.repository.TaskRepository;
 import org.springframework.stereotype.Service;
 import com.taskmanager.exception.TaskValidationException;
 import com.taskmanager.exception.TaskNotFoundException;
+import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +44,7 @@ public class TaskService {
                 .map(task -> {
                     task.setTitle(updatedTask.getTitle());
                     task.setDescription(updatedTask.getDescription());
+                    task.setDueDate(updatedTask.getDueDate());
                     return taskRepository.save(task);
                 })
                 .orElseThrow(() ->
@@ -97,4 +99,58 @@ public class TaskService {
         task.setStatus(status);
         return taskRepository.save(task);
     }
+    public List<Task> searchTasks(String keyword) {
+
+        return taskRepository
+                .findByTitleContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                        keyword,
+                        keyword
+                );
+    }
+    public List<Task> filterByStatus(String status) {
+
+        return taskRepository.findByStatus(status.toUpperCase());
+    }
+    public List<Task> sortTasks(String field, String direction) {
+        Sort.Direction sortDirection;
+        if (direction.equalsIgnoreCase("desc")) {
+            sortDirection = Sort.Direction.DESC;
+        } else {
+            sortDirection = Sort.Direction.ASC;
+        }
+        Sort sort = Sort.by(sortDirection, field);
+        return taskRepository.findAll(sort);
+    }
+    public List<Task> getOverdueTasks() {
+        LocalDate today = LocalDate.now();
+        return taskRepository.findAll()
+                .stream()
+                .filter(task ->
+                        task.getDueDate() != null
+                                && task.getDueDate().isBefore(today)
+                                && !"COMPLETED".equalsIgnoreCase(task.getStatus())
+                )
+                .toList();
+    }
+
+    public String getStatistics() {
+        List<Task> tasks = taskRepository.findAll();
+        long total = tasks.size();
+        long pending = tasks.stream()
+                .filter(task -> "PENDING".equalsIgnoreCase(task.getStatus()))
+                .count();
+        long inProgress = tasks.stream()
+                .filter(task -> "IN_PROGRESS".equalsIgnoreCase(task.getStatus()))
+                .count();
+        long completed = tasks.stream()
+                .filter(task -> "COMPLETED".equalsIgnoreCase(task.getStatus()))
+                .count();
+        long overdue = getOverdueTasks().size();
+        return "Total tasks: " + total +
+                "\nPending: " + pending +
+                "\nIn Progress: " + inProgress +
+                "\nCompleted: " + completed +
+                "\nOverdue: " + overdue;
+    }
+
 }
