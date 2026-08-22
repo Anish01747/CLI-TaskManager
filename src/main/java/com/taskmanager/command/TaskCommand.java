@@ -44,15 +44,16 @@ public class TaskCommand {
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format(
-                "%-5s %-20s %-15s %-12s%n",
-                "ID", "TITLE", "STATUS", "DUE DATE"
+                "%-5s %-20s %-30s %-15s %-12s%n",
+                "ID", "TITLE", "DESCRIPTION", "STATUS", "DUE DATE"
         ));
-        result.append("----------------------------------------------------------\n");
+        result.append("------------------------------------------------------------------------------------\n");
         for (Task task : tasks) {
             result.append(String.format(
-                    "%-5d %-20s %-15s %-12s%n",
+                    "%-5s %-20s %-30s %-15s %-12s%n",
                     task.getId(),
                     task.getTitle(),
+                    task.getDescription(),
                     task.getStatus(),
                     task.getDueDate() != null ? task.getDueDate() : "-"
             ));
@@ -130,16 +131,17 @@ public class TaskCommand {
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format(
-                "%-5s %-20s %-15s %-12s%n",
-                "ID", "TITLE", "STATUS", "DUE DATE"
+                "%-5s %-20s %-30s %-15s %-12s%n",
+                "ID", "TITLE", "DESCRIPTION", "STATUS", "DUE DATE"
         ));
-        result.append("----------------------------------------------------------\n");
+        result.append("------------------------------------------------------------------------------------\n");
 
         for (Task task : tasks) {
             result.append(String.format(
-                    "%-5d %-20s %-15s %-12s%n",
+                    "%-5s %-20s %-30s %-15s %-12s%n",
                     task.getId(),
                     task.getTitle(),
+                    task.getDescription(),
                     task.getStatus(),
                     task.getDueDate() != null ? task.getDueDate() : "-"
             ));
@@ -156,15 +158,16 @@ public class TaskCommand {
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format(
-                "%-5s %-20s %-15s %-12s%n",
-                "ID", "TITLE", "STATUS", "DUE DATE"
+                "%-5s %-20s %-30s %-15s %-12s%n",
+                "ID", "TITLE", "DESCRIPTION", "STATUS", "DUE DATE"
         ));
-        result.append("----------------------------------------------------------\n");
+        result.append("------------------------------------------------------------------------------------\n");
         for (Task task : tasks) {
             result.append(String.format(
-                    "%-5d %-20s %-15s %-12s%n",
+                    "%-5s %-20s %-30s %-15s %-12s%n",
                     task.getId(),
                     task.getTitle(),
+                    task.getDescription(),
                     task.getStatus(),
                     task.getDueDate() != null ? task.getDueDate() : "-"
             ));
@@ -184,15 +187,16 @@ public class TaskCommand {
             }
             StringBuilder result = new StringBuilder();
             result.append(String.format(
-                    "%-5s %-20s %-15s %-12s%n",
-                    "ID", "TITLE", "STATUS", "DUE DATE"
+                    "%-5s %-20s %-30s %-15s %-12s%n",
+                    "ID", "TITLE", "DESCRIPTION", "STATUS", "DUE DATE"
             ));
-            result.append("----------------------------------------------------------\n");
+            result.append("------------------------------------------------------------------------------------\n");
             for (Task task : tasks) {
                 result.append(String.format(
-                        "%-5d %-20s %-15s %-12s%n",
+                        "%-5s %-20s %-30s %-15s %-12s%n",
                         task.getId(),
                         task.getTitle(),
+                        task.getDescription(),
                         task.getStatus(),
                         task.getDueDate() != null ? task.getDueDate() : "-"
                 ));
@@ -210,15 +214,16 @@ public class TaskCommand {
         }
         StringBuilder result = new StringBuilder();
         result.append(String.format(
-                "%-5s %-20s %-15s %-12s%n",
-                "ID", "TITLE", "STATUS", "DUE DATE"
+                "%-5s %-20s %-30s %-15s %-12s%n",
+                "ID", "TITLE", "DESCRIPTION", "STATUS", "DUE DATE"
         ));
-        result.append("----------------------------------------------------------\n");
+        result.append("------------------------------------------------------------------------------------\n");
         for (Task task : tasks) {
             result.append(String.format(
-                    "%-5d %-20s %-15s %-12s%n",
+                    "%-5s %-20s %-30s %-15s %-12s%n",
                     task.getId(),
                     task.getTitle(),
+                    task.getDescription(),
                     task.getStatus(),
                     task.getDueDate() != null ? task.getDueDate() : "-"
             ));
