@@ -38,8 +38,26 @@ public class TaskCommand {
 
     @Command(name = "list", description = "List all tasks")
     public String listTasks() {
-
-        return taskService.getAllTasks().toString();
+        List<Task> tasks = taskService.getAllTasks();
+        if (tasks.isEmpty()) {
+            return "No tasks found.";
+        }
+        StringBuilder result = new StringBuilder();
+        result.append(String.format(
+                "%-5s %-20s %-15s %-12s%n",
+                "ID", "TITLE", "STATUS", "DUE DATE"
+        ));
+        result.append("----------------------------------------------------------\n");
+        for (Task task : tasks) {
+            result.append(String.format(
+                    "%-5d %-20s %-15s %-12s%n",
+                    task.getId(),
+                    task.getTitle(),
+                    task.getStatus(),
+                    task.getDueDate() != null ? task.getDueDate() : "-"
+            ));
+        }
+        return result.toString();
     }
     @Command(name = "get", description = "Get task by ID")
     public String getTask(
@@ -110,7 +128,23 @@ public class TaskCommand {
         if (tasks.isEmpty()) {
             return "No tasks found.";
         }
-        return tasks.toString();
+        StringBuilder result = new StringBuilder();
+        result.append(String.format(
+                "%-5s %-20s %-15s %-12s%n",
+                "ID", "TITLE", "STATUS", "DUE DATE"
+        ));
+        result.append("----------------------------------------------------------\n");
+
+        for (Task task : tasks) {
+            result.append(String.format(
+                    "%-5d %-20s %-15s %-12s%n",
+                    task.getId(),
+                    task.getTitle(),
+                    task.getStatus(),
+                    task.getDueDate() != null ? task.getDueDate() : "-"
+            ));
+        }
+        return result.toString();
     }
     @Command(name = "filter", description = "Filter tasks by status")
     public String filterTasks(
@@ -120,7 +154,22 @@ public class TaskCommand {
         if (tasks.isEmpty()) {
             return "No tasks found.";
         }
-        return tasks.toString();
+        StringBuilder result = new StringBuilder();
+        result.append(String.format(
+                "%-5s %-20s %-15s %-12s%n",
+                "ID", "TITLE", "STATUS", "DUE DATE"
+        ));
+        result.append("----------------------------------------------------------\n");
+        for (Task task : tasks) {
+            result.append(String.format(
+                    "%-5d %-20s %-15s %-12s%n",
+                    task.getId(),
+                    task.getTitle(),
+                    task.getStatus(),
+                    task.getDueDate() != null ? task.getDueDate() : "-"
+            ));
+        }
+        return result.toString();
     }
     @Command(name = "sort", description = "Sort tasks")
     public String sortTasks(
@@ -133,7 +182,22 @@ public class TaskCommand {
             if (tasks.isEmpty()) {
                 return "No tasks found.";
             }
-            return tasks.toString();
+            StringBuilder result = new StringBuilder();
+            result.append(String.format(
+                    "%-5s %-20s %-15s %-12s%n",
+                    "ID", "TITLE", "STATUS", "DUE DATE"
+            ));
+            result.append("----------------------------------------------------------\n");
+            for (Task task : tasks) {
+                result.append(String.format(
+                        "%-5d %-20s %-15s %-12s%n",
+                        task.getId(),
+                        task.getTitle(),
+                        task.getStatus(),
+                        task.getDueDate() != null ? task.getDueDate() : "-"
+                ));
+            }
+            return result.toString();
         } catch (Exception e) {
             return "Invalid sort field: " + field;
         }
@@ -144,11 +208,28 @@ public class TaskCommand {
         if (tasks.isEmpty()) {
             return "No overdue tasks found.";
         }
-        return tasks.toString();
+        StringBuilder result = new StringBuilder();
+        result.append(String.format(
+                "%-5s %-20s %-15s %-12s%n",
+                "ID", "TITLE", "STATUS", "DUE DATE"
+        ));
+        result.append("----------------------------------------------------------\n");
+        for (Task task : tasks) {
+            result.append(String.format(
+                    "%-5d %-20s %-15s %-12s%n",
+                    task.getId(),
+                    task.getTitle(),
+                    task.getStatus(),
+                    task.getDueDate() != null ? task.getDueDate() : "-"
+            ));
+        }
+        return result.toString();
     }
-
     @Command(name = "stats", description = "Show task statistics")
     public String showStatistics() {
-        return taskService.getStatistics();
+        return "\n========== TASK STATISTICS ==========\n"
+                + taskService.getStatistics()
+                + "\n=====================================";
     }
+
 }
